@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "prehistorica",
+  "version": "${version}",
+  "name": "Prehistorica",
+  "description": "Dinosaur revival and park-building for Minecraft 26.x",
+  "authors": ["Prehistorica Team"],
+  "license": "All-Rights-Reserved",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["com.prehistorica.fabric.PrehistoricaFabric"]
+  },
+  "depends": {
+    "fabricloader": ">=0.18.4",
+    "minecraft": ">=26.1.2 <26.2",
+    "fabric-api": "*",
+    "java": ">=25"
+  }
+}

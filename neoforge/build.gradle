@@ -1,0 +1,30 @@
+plugins {
+    id 'net.neoforged.moddev' version "${moddev_version}"
+}
+
+neoForge {
+    version = project.neo_version
+
+    runs {
+        server {
+            server()
+        }
+        client {
+            client()
+        }
+    }
+
+    mods {
+        "${mod_id}" {
+            sourceSet sourceSets.main
+        }
+    }
+}
+
+dependencies {
+    implementation project(':common')
+}
+
+tasks.jar {
+    from(project(':common').sourceSets.main.output)
+}

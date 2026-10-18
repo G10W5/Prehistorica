@@ -1,0 +1,25 @@
+modLoader="javafml"
+loaderVersion="[1,)"
+license="All Rights Reserved"
+
+[[mods]]
+modId="prehistorica"
+version="0.1.0"
+displayName="Prehistorica"
+description="""
+Dinosaur revival and park-building for Minecraft 26.x
+"""
+
+[[dependencies.prehistorica]]
+modId="minecraft"
+type="required"
+versionRange="[26.1.2,26.2)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.prehistorica]]
+modId="neoforge"
+type="required"
+versionRange="[0,)"
+ordering="NONE"
+side="BOTH"

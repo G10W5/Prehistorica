@@ -1,0 +1,35 @@
+plugins {
+    id 'io.github.pacifistmc.forgix' version "${forgix_version}"
+}
+
+allprojects {
+    group = project.maven_group
+    version = project.mod_version
+}
+
+configure(subprojects) {
+    apply plugin: 'java-library'
+
+    repositories {
+        mavenCentral()
+    }
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(25)
+        }
+    }
+}
+
+forgix {
+    archiveBaseName = project.mod_id
+    archiveVersion = project.mod_version
+    destinationDirectory = layout.projectDirectory.dir('build/forgix')
+
+    fabric {
+        inputJar = project(':fabric').tasks.jar.archiveFile
+    }
+    neoforge {
+        inputJar = project(':neoforge').tasks.jar.archiveFile
+    }
+}

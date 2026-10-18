@@ -1,0 +1,16 @@
+{
+  "id": "gallimimus",
+  "name": "Gallimimus",
+  "diet": "PLANTS",
+  "temperament": "SKITTISH",
+  "maxHealth": 14.0,
+  "damage": 2.0,
+  "speed": 0.28,
+  "scale": 1.0,
+  "hitbox": [0.9, 1.9],
+  "growth": {
+    "hatchling_ticks": 12000,
+    "juvenile_ticks": 24000,
+    "gestation_ticks": 3600
+  }
+}

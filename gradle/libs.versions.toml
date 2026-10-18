@@ -1,0 +1,14 @@
+# Architecture stack
+# Loom plugin id: net.fabricmc.fabric-loom (Fabric maven)
+# ModDevGradle plugin id: net.neoforged.moddev (NeoForged maven)
+# Forgix plugin id: io.github.pacifistmc.forgix (Gradle plugin portal)
+
+[versions]
+minecraft = "26.1.2"
+loader = "0.20.0"
+loom = "1.16.3"
+moddev = "2.0.148"
+forgix = "2.0.0"
+fabric-api = "0.155.3+26.1.2"
+neoforge = "26.1.2.122"
+gson = "2.10.1"
