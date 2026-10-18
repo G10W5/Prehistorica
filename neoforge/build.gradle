@@ -2,8 +2,14 @@ plugins {
     id 'net.neoforged.moddev' version "${moddev_version}"
 }
 
+def pinFor(String key) {
+    return project.property("pin.${project.mc_version}.${key}")
+}
+
+def mcRange = "[${project.mc_min},${project.mc_max})"
+
 neoForge {
-    version = project.neo_version
+    version = pinFor('neoforge')
 
     runs {
         server {
@@ -23,6 +29,13 @@ neoForge {
 
 dependencies {
     implementation project(':common')
+}
+
+processResources {
+    inputs.property 'mcRange', mcRange
+    filesMatching('META-INF/neoforge.mods.toml') {
+        expand 'mcRange': mcRange
+    }
 }
 
 tasks.jar {

@@ -19,10 +19,44 @@ Key facts:
 
 | Target | Command |
 |---|---|
-| 26.1.2 both loaders | `gradlew build -Pmc=26.1` |
-| 26.2 both loaders | `gradlew build -Pmc=26.2` |
-| 26.3 both loaders | `gradlew build -Pmc=26.3` |
-| merged multi-version jar | `gradlew mergeVersions` |
+| universal jar (all loaders, `mc_min`..`mc_max` window) | `powershell -File build-universal.ps1` |
+| build against a specific MC stack (no merge) | `gradlew :fabric:jar :neoforge:jar -Pmc_version=26.2` |
+
+## How the universal jar works (verified 2026-10-18)
+
+`build-universal.ps1` compiles `:fabric`/`:neoforge` against the `-Pmc_version`
+stack (default 26.3) and runs Forgix `mergeJars`, producing a single
+`build/forgix/prehistorica-<ver>-fabric-neoforge.jar` whose manifests use a WIDE
+minecraft window (`fabric.mod.json` `"minecraft": ">=26.1.2 <26.4"`,
+`neoforge.mods.toml` `versionRange="[26.1.2,26.4)"`).
+
+Because the mod touches no MC API yet, one binary serves 26.1.2/26.2/26.3 on
+both loaders. Verified by booting REAL launcher servers (mods/ folder install,
+not dev runs) — mod loads and `2 species definitions loaded` printed on every
+combo: Fabric+NeoForge x 26.1.2/26.2/26.3.
+
+Requirements for this to stay true:
+
+- `gradle.properties` `mc_min`/`mc_max` define the window; widen when adding MC
+  versions (and re-verify).
+- The moment the mod touches a MC class that differs between versions, switch
+  to per-version builds (see below) — wide-range single-binary stops being safe.
+- `Forgix mergeJars` does NOT rebuild subproject jars; always include
+  `:fabric:jar :neoforge:jar` in the invocation (build-universal.ps1 does).
+
+## Forgix multiversion (mergeVersions) — NOT used, upstream bug
+
+ Forgix 2.0.0 `mergeVersions` produced a structurally correct multiversion jar
+(per-version sub-jars + Fabric nested-jar bootstrap). Fabric side worked on all
+three versions. NeoForge side fails: Forgix-Multiversion-Mod's
+`NeoForgeMultiversionLocator` calls `FMLLoader.versionInfo()`
+(https://github.com/PacifistMC/Forgix-Multiversion-Mod),
+removed in FancyModLoader 12 (NeoForge 26.x) ->
+`NoSuchMethodError`, mod silently not loaded (server still boots). Upstream
+hasn't shipped a fix (last submodule commit 2026-08-02). If a fixed release
+lands, the per-version pin map in `gradle.properties` (`pin.<mc>.fabricapi`,
+`pin.<mc>.neoforge`) plus narrow `pin.<mc>.mc_range` sets are still present for
+re-enabling that pipeline.
 
 ## Per-version overrides
 

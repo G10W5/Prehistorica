@@ -13,7 +13,7 @@ Dinosaur revival and park-building for Minecraft 26.x
 [[dependencies.prehistorica]]
 modId="minecraft"
 type="required"
-versionRange="[26.1.2,26.2)"
+versionRange="${mcRange}"
 ordering="NONE"
 side="BOTH"
 

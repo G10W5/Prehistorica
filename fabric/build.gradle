@@ -2,18 +2,31 @@ plugins {
     id 'net.fabricmc.fabric-loom' version "${loom_version}"
 }
 
+def pinFor(String key) {
+    return project.property("pin.${project.mc_version}.${key}")
+}
+
+def mcRange = ">=${project.mc_min} <${project.mc_max}"
+
 dependencies {
     minecraft "com.mojang:minecraft:${mc_version}"
     implementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
-    implementation "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${pinFor('fabricapi')}"
 
     implementation project(':common')
 }
 
 processResources {
     inputs.property 'version', project.version
+    inputs.property 'mcRange', mcRange
     filesMatching('fabric.mod.json') {
-        expand 'version': project.version
+        expand 'version': project.version, 'mcRange': mcRange
+    }
+}
+
+tasks.register('printPins') {
+    doLast {
+        println "mc_version=${project.mc_version} mcRange=${mcRange}"
     }
 }
 
